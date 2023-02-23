@@ -75,7 +75,9 @@ public class Main{
             ps = conn.prepareStatement(Germany);
             ps.execute();
 
-
+            String Germany1 = "UPDATE `newdb`.`students` SET `country` = 'Germany' WHERE (`student_id` = '4');";
+            ps = conn.prepareStatement(Germany1);
+            ps.execute();
 
         } catch(SQLException e) {
             System.out.println(e.getMessage());
