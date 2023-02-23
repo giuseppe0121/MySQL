@@ -20,7 +20,6 @@ public class Main{
             ps = conn.prepareStatement(Drop);
             ps.execute();
 
-
             String query = "CREATE TABLE IF NOT EXISTS newdb.students( " +
                     "  student_id INT(10) NOT NULL AUTO_INCREMENT, " +
                     "  last_name VARCHAR(30), " +
