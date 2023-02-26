@@ -11,15 +11,18 @@ public class Main{
         Connection conn = null;
         ResultSet rs = null;
         try {
+            //collegamento con MYSQL
             String url       = "jdbc:mysql://localhost:3306/newdb";
             String user      = "developer";
             String password  = "passwordhere";
 
             conn = DriverManager.getConnection(url, user, password);
 
+            //creazione tabella Es2
             String Drop = "DROP TABLE IF EXISTS newdb.students;";
             ps = conn.prepareStatement(Drop);
             ps.execute();
+
 
             String query = "CREATE TABLE IF NOT EXISTS newdb.students( " +
                     "  student_id INT(10) NOT NULL AUTO_INCREMENT, " +
@@ -30,6 +33,7 @@ public class Main{
             ps = conn.prepareStatement(query);
             ps.execute();
 
+            //assegnazione 4 studenti casuali
             String students = "INSERT INTO `newdb`.`students` (`first_name`, `last_name`) VALUES('giuseppe','albanese')";
             ps = conn.prepareStatement(students);
             ps.execute();
@@ -46,6 +50,7 @@ public class Main{
             ps = conn.prepareStatement(students4);
             ps.execute();
 
+            //Array list per i cognomi Es3
             String query1 = "select first_name ,last_name FROM students";
             rs = ps.executeQuery(query1);
             ArrayList<String> surname = new ArrayList<String>();
@@ -60,7 +65,7 @@ public class Main{
             rs.close();
             System.out.println("surname: "+ surname);
 
-
+            //aggiungo una colonna country Es4 e assegno i vari studendi a le nazioni
             String query2 = "ALTER TABLE newdb.students ADD COLUMN country VARCHAR(30) AFTER first_name;";
             ps = conn.prepareStatement(query2);
             ps.execute();
@@ -85,6 +90,7 @@ public class Main{
             ps = conn.prepareStatement(Drop2);
             ps.execute();
 
+            // grazione delle VIEW Es5
             String Drop3 = "DROP VIEW IF EXISTS newdb.`german_students`;";
             ps = conn.prepareStatement(Drop3);
             ps.execute();
