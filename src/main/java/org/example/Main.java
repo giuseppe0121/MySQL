@@ -2,6 +2,7 @@ package org.example;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Main{
     public static void main(String[] args) {
@@ -56,6 +57,7 @@ public class Main{
                 System.out.println("name is "+ firstName );
                 surname.add(lastName);
             }
+            rs.close();
             System.out.println("surname: "+ surname);
 
 
@@ -78,6 +80,60 @@ public class Main{
             String Germany1 = "UPDATE `newdb`.`students` SET `country` = 'Germany' WHERE (`student_id` = '4');";
             ps = conn.prepareStatement(Germany1);
             ps.execute();
+
+            String Drop2 = "DROP VIEW IF EXISTS newdb.`italian_students`;";
+            ps = conn.prepareStatement(Drop2);
+            ps.execute();
+
+            String Drop3 = "DROP VIEW IF EXISTS newdb.`german_students`;";
+            ps = conn.prepareStatement(Drop3);
+            ps.execute();
+
+            String query3 = "CREATE VIEW newdb.`italian_students` AS " +
+                    "SELECT `first_name`, `last_name` FROM newdb.students WHERE country = 'italy'; ";
+            ps = conn.prepareStatement(query3);
+            ps.execute();
+
+            String query4 = "CREATE VIEW newdb.`german_students` AS " +
+                    "SELECT `first_name`, `last_name` FROM newdb.students WHERE country = 'Germany'; ";
+            ps = conn.prepareStatement(query4);
+            ps.execute();
+
+
+            String query5 = "select * FROM `italian_students`";
+            rs = ps.executeQuery(query5);
+
+
+            ArrayList<Student> italianStudents = new ArrayList<>();
+
+            ArrayList<Student> germanStudents = new ArrayList<>();
+
+            System.out.println("italian students is:");
+            while (rs.next()){
+                String firstName = rs.getString("first_name");
+                String lastName = rs.getString("last_name");
+                Student student = new Student(firstName,lastName);
+
+                italianStudents.add(student);
+
+            }
+            System.out.println(italianStudents);
+            rs.close();
+
+
+            String query6 = "select * FROM `german_students`";
+            rs = ps.executeQuery(query6);
+            System.out.println("german students is:");
+            while (rs.next()){
+                String firstName = rs.getString("first_name");
+                String lastName = rs.getString("last_name");
+                Student student = new Student(firstName,lastName);
+
+                germanStudents.add(student);
+
+            }
+            System.out.println(germanStudents);
+            rs.close();
 
         } catch(SQLException e) {
             System.out.println(e.getMessage());
